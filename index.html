@@ -1,22 +1,197 @@
-<!DOCTYPE html>
-<html>
-<head>
-<style>
-body {
-    background-color: black;
-    color: white; /* optional, so text is visible */
-}
+<!--
+File: index.html
+Description: Main page. Place styles.css and script.js in the same folder.
+-->
 
-.nowrap {
-    white-space: nowrap;
-}
-</style>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Download Hub</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <header class="site-header">
+    <div class="container">
+      <h1 class="logo">Download Hub</h1>
+      <div class="controls">
+        <input id="search" type="search" placeholder="Search files, e.g. "report.pdf"">
+        <select id="categorySelect">
+          <option value="all">All categories</option>
+        </select>
+      </div>
+    </div>
+  </header>
 
-<div class="nowrap">
-    print("hi")
-</div>
+  <main class="container">
+    <section id="filesGrid" class="files-grid" aria-live="polite"></section>
 
+    <template id="fileCardTemplate">
+      <article class="file-card">
+        <div class="file-meta">
+          <div class="file-icon">📄</div>
+          <div>
+            <h3 class="file-name"></h3>
+            <p class="file-size"></p>
+          </div>
+        </div>
+        <div class="file-actions">
+          <a class="btn btn-download" download>Download</a>
+          <button class="btn btn-copy" title="Copy link">Copy link</button>
+        </div>
+      </article>
+    </template>
+
+    <div id="empty" class="empty-state">No files found.</div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">Tip: put your downloadable files into a folder named <code>/files/</code> on your host.</div>
+  </footer>
+
+  <script src="script.js"></script>
 </body>
 </html>
+
+
+/*
+File: styles.css
+Description: Simple responsive styles for the download page
+*/
+
+:root{
+  --bg:#0f1724;
+  --card:#0b1220;
+  --muted:#9aa4b2;
+  --accent:#4f46e5;
+  --glass: rgba(255,255,255,0.03);
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family:Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background:linear-gradient(180deg,var(--bg), #071026);
+  color:#e6eef6;
+  -webkit-font-smoothing:antialiased;
+}
+.container{max-width:980px;margin:0 auto;padding:20px}
+.site-header{padding:18px 0}
+.logo{margin:0;font-size:20px}
+.controls{display:flex;gap:10px;align-items:center}
+.controls input[type=search]{padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:var(--glass);color:inherit;min-width:180px}
+.controls select{padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:var(--glass);color:inherit}
+.files-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;margin-top:18px}
+.file-card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:12px;border-radius:10px;display:flex;justify-content:space-between;align-items:center;border:1px solid rgba(255,255,255,0.03)}
+.file-meta{display:flex;gap:12px;align-items:center}
+.file-icon{font-size:28px}
+.file-name{margin:0;font-size:15px}
+.file-size{margin:4px 0 0 0;color:var(--muted);font-size:13px}
+.file-actions{display:flex;gap:8px}
+.btn{padding:8px 10px;border-radius:8px;border:0;cursor:pointer;font-weight:600}
+.btn-download{background:linear-gradient(90deg,var(--accent),#8b5cf6);color:white;text-decoration:none}
+.btn-copy{background:transparent;border:1px solid rgba(255,255,255,0.05);color:var(--muted)}
+.empty-state{text-align:center;color:var(--muted);margin-top:30px}
+.site-footer{padding:26px 0;color:var(--muted)}n
+@media (max-width:540px){
+  .controls{flex-direction:column;align-items:stretch}
+}
+
+
+/*
+File: script.js
+Description: Renders file list, search, category filter, download & copy link.
+Replace the `files` array with your actual files or fetch from a server API.
+*/
+
+const files = [
+  { id:1, name: 'Project-Overview.pdf', url: 'files/Project-Overview.pdf', size: 234567, category: 'Documents' },
+  { id:2, name: 'Summer-Photos.zip', url: 'files/Summer-Photos.zip', size: 10485760, category: 'Archives' },
+  { id:3, name: 'App-v1.2.1.exe', url: 'files/App-v1.2.1.exe', size: 5237760, category: 'Programs' },
+  { id:4, name: 'Song-Sample.mp3', url: 'files/Song-Sample.mp3', size: 4567890, category: 'Audio' }
+];
+
+function formatBytes(bytes){
+  if(bytes===0) return '0 B';
+  const k = 1024; const sizes = ['B','KB','MB','GB','TB'];
+  const i = Math.floor(Math.log(bytes)/Math.log(k));
+  return parseFloat((bytes/Math.pow(k,i)).toFixed(2)) + ' ' + sizes[i];
+}
+
+const filesGrid = document.getElementById('filesGrid');
+const tpl = document.getElementById('fileCardTemplate');
+const searchInput = document.getElementById('search');
+const categorySelect = document.getElementById('categorySelect');
+const emptyState = document.getElementById('empty');
+
+function populateCategories(){
+  const cats = ['All','Documents','Archives','Programs','Audio'];
+  // derive from files (keeps order predictable)
+  const derived = [...new Set(files.map(f => f.category))];
+  categorySelect.innerHTML = '<option value="all">All categories</option>' + derived.map(c => `<option value="${c}">${c}</option>`).join('');
+}
+
+function render(list){
+  filesGrid.innerHTML = '';
+  if(list.length===0){ emptyState.style.display='block'; return }
+  emptyState.style.display='none';
+  list.forEach(f => {
+    const node = tpl.content.cloneNode(true);
+    node.querySelector('.file-name').textContent = f.name;
+    node.querySelector('.file-size').textContent = formatBytes(f.size);
+    const a = node.querySelector('.btn-download');
+    a.href = f.url;
+    a.setAttribute('download', f.name);
+    a.addEventListener('click', e => {
+      // allow normal download; no-op
+    });
+    const copyBtn = node.querySelector('.btn-copy');
+    copyBtn.addEventListener('click', async () => {
+      const link = location.origin + '/' + f.url.replace(/^\/+/, '');
+      try{
+        await navigator.clipboard.writeText(link);
+        copyBtn.textContent = 'Copied!';
+        setTimeout(()=>copyBtn.textContent='Copy link',1200);
+      }catch(err){
+        alert('Copy failed — here is the link:\n'+link);
+      }
+    });
+    filesGrid.appendChild(node);
+  })
+}
+
+function filterAndRender(){
+  const q = searchInput.value.trim().toLowerCase();
+  const cat = categorySelect.value;
+  const filtered = files.filter(f => {
+    const okQ = q === '' || f.name.toLowerCase().includes(q) || (f.category||'').toLowerCase().includes(q);
+    const okCat = cat === 'all' || cat === '' || f.category === cat;
+    return okQ && okCat;
+  });
+  render(filtered);
+}
+
+searchInput.addEventListener('input', filterAndRender);
+categorySelect.addEventListener('change', filterAndRender);
+
+// initialize
+populateCategories();
+render(files);
+
+// Optional: Allow drag & drop preview (client-only, not uploading to server)
+(function enableDragPreview(){
+  const body = document.body;
+  body.addEventListener('dragover', e => { e.preventDefault(); body.classList.add('dragging'); });
+  body.addEventListener('dragleave', e => { body.classList.remove('dragging'); });
+  body.addEventListener('drop', async e => {
+    e.preventDefault(); body.classList.remove('dragging');
+    const dropped = Array.from(e.dataTransfer.files || []);
+    if(!dropped.length) return;
+    const previewList = dropped.map((file, idx)=>({ id: Date.now()+idx, name:file.name, size:file.size, url: URL.createObjectURL(file), category: 'Uploaded' }));
+    // show previews (these are client-only and will not persist)
+    files.unshift(...previewList);
+    populateCategories();
+    render(files);
+  });
+})();
