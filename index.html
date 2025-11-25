@@ -1,1 +1,607 @@
-print("hi ima do ths")
+-- ts file was generated at discord.gg/25ms
+
+
+local vu1 = game:GetService("ReplicatedStorage")
+local vu2 = game:GetService("TweenService")
+local vu3 = game:GetService("Players")
+local vu4 = game:GetService("RunService")
+local vu5 = game:GetService("TextChatService")
+local vu6 = vu1.Remotes.Extras.GetPlayerData
+local vu7 = vu3.LocalPlayer
+local v8 = {}
+local v9 = {}
+local vu10 = loadstring(game:HttpGet("https://github.com/Footagesus/WindUI/releases/latest/download/main.lua"))()
+local v11 = vu10:CreateWindow({
+    Title = "Wild Hub | Murder Mystery 2 ",
+    Icon = "door-open",
+    Author = "Made by Wild Wide",
+    Folder = "Wild-Hub",
+    Theme = "Midnight",
+    Transparent = true
+})
+v11:Tag({
+    Title = "BETA",
+    Color = Color3.fromRGB(255, 255, 255)
+})
+function set_noclip(p12)
+    local v13, v14, v15 = pairs(p12:GetDescendants())
+    while true do
+        local v16
+        v15, v16 = v13(v14, v15)
+        if v15 == nil then
+            break
+        end
+        if v16 and v16:IsA("BasePart") then
+            v16.CanCollide = false
+        end
+    end
+end
+function format_name(p17)
+    if p17 then
+        local v18 = type(p17) ~= "string" or vu3:FindFirstChild(p17)
+        if v18 then
+            if v18 ~= vu7 then
+                if v18.Name ~= v18.DisplayName then
+                    return v18.DisplayName .. " (" .. v18.Name .. ")"
+                else
+                    return v18.Name
+                end
+            else
+                return "you"
+            end
+        else
+            return "none"
+        end
+    else
+        return "none"
+    end
+end
+local vu19 = nil
+local vu20 = nil
+local vu21 = nil
+vu4.Heartbeat:Connect(function()
+    local v22 = vu6:InvokeServer()
+    if v22 then
+        local v23, v24, v25 = pairs(v22)
+        while true do
+            local v26
+            v25, v26 = v23(v24, v25)
+            if v25 == nil then
+                break
+            end
+            if v26.Role ~= "Murderer" then
+                if v26.Role ~= "Sheriff" then
+                    if v26.Role == "Hero" then
+                        local v27 = {
+                            Name = format_name(v25),
+                            Instance = vu3:FindFirstChild(v25)
+                        }
+                        vu21 = v27
+                    end
+                else
+                    local v28 = {
+                        Name = format_name(v25),
+                        Instance = vu3:FindFirstChild(v25)
+                    }
+                    vu20 = v28
+                end
+            else
+                local v29 = {
+                    Name = format_name(v25),
+                    Instance = vu3:FindFirstChild(v25)
+                }
+                vu19 = v29
+            end
+        end
+    end
+end)
+vu10:Notify({
+    Title = "somes features might get glitched or buggy",
+    Desc = "This is the first time that the Creator of Wild Hub makes a script for MM2 btw"
+})
+v8.Main = v11:Tab({
+    Title = "Main"
+})
+local vu30 = {
+    Murder = v8.Main:Paragraph({
+        Title = "Murderer:",
+        Desc = vu19 and (vu19.Name or "none") or "none"
+    }),
+    Sheriff = v8.Main:Paragraph({
+        Title = "Sheriff:",
+        Desc = vu20 and (vu20.Name or "none") or "none"
+    }),
+    Hero = v8.Main:Paragraph({
+        Title = "Hero:",
+        Desc = vu21 and (vu21.Name or "none") or "none"
+    })
+}
+vu4.Heartbeat:Connect(function()
+    vu30.Murder:SetDesc(vu19 and vu19.Name or "none")
+    vu30.Sheriff:SetDesc(vu20 and vu20.Name or "none")
+    vu30.Hero:SetDesc(vu21 and vu21.Name or "none")
+end)
+local v42 = v8.Main:Button({
+    Title = "Kill All",
+    Desc = "if you\'re the murder you can stab everyone",
+    Callback = function()
+        if vu7.Character:FindFirstChild("Knife") or vu7.Backpack:FindFirstChild("Knife") then
+            local v31 = vu7.Character
+            if not v31 then
+                while not v31 do
+                    v31 = vu7.Character
+                    task.wait()
+                end
+            end
+            local v32 = v31:FindFirstChild("HumanoidRootPart")
+            local v33 = vu7.Backpack:FindFirstChild("Knife")
+            if not v33 and v31:FindFirstChild("Knife") then
+                v33 = v31:FindFirstChild("Knife")
+            end
+            v33.Parent = v31
+            local v34 = vu6:InvokeServer()
+            local v35, v36, v37 = pairs(v34)
+            while true do
+                local v38
+                v37, v38 = v35(v36, v37)
+                if v37 == nil then
+                    break
+                end
+                if v38.Role ~= "Murderer" then
+                    local v39 = vu3:FindFirstChild(v37)
+                    if v39 then
+                        local v40 = v39.Character
+                        set_noclip(v40)
+                        if not v40 then
+                            while not v40 do
+                                v40 = v39.Character
+                                task.wait()
+                            end
+                        end
+                        local v41 = v40:FindFirstChild("HumanoidRootPart")
+                        if v41 then
+                            v41.CanCollide = false
+                            v41.Size = Vector3.new(20, 20, 20)
+                            v41.CFrame = v32.CFrame + Vector3.new(3, 0, 0)
+                            v33:WaitForChild("Stab"):FireServer("Slash")
+                        end
+                    end
+                end
+                task.wait(0.1)
+            end
+        else
+            vu10:Notify({
+                Title = "You\'re not the murder",
+                Content = "You need to be the murder to use this function",
+                Duration = 3
+            })
+        end
+    end
+})
+v8.Main:Button({
+    Title = "Kill Sheriff/Hero",
+    Callback = function()
+        if vu7.Character:FindFirstChild("Knife") or vu7.Backpack:FindFirstChild("Knife") then
+            local v43 = vu7.Character
+            if not v43 then
+                while not v43 do
+                    v43 = vu7.Character
+                    task.wait()
+                end
+            end
+            local v44 = v43:FindFirstChild("HumanoidRootPart")
+            local v45 = vu7.Backpack:FindFirstChild("Knife")
+            if not v45 and v43:FindFirstChild("Knife") then
+                v45 = v43:FindFirstChild("Knife")
+            end
+            v45.Parent = v43
+            if vu21 ~= nil and vu21.Instance then
+                local v46 = vu21.Instance.Character.HumanoidRootPart
+                v46.CanCollide = false
+                v46.Size = Vector3.new(20, 20, 20)
+                v46.CFrame = v44.CFrame
+                v45:WaitForChild("Stab"):FireServer("Slash")
+            end
+            if vu20 ~= nil and vu20.Instance then
+                local v47 = vu20.Instance.Character.HumanoidRootPart
+                v47.CanCollide = false
+                v47.Size = Vector3.new(20, 20, 20)
+                v47.CFrame = v44.CFrame
+                v45:WaitForChild("Stab"):FireServer("Slash")
+            end
+        else
+            vu10:Notify({
+                Title = "You\'re not the murder",
+                Content = "You need to be the murder to use this function",
+                Duration = 3
+            })
+        end
+    end
+})
+if getgenv().WH_DEBUG == true then
+    print(v42.Callback)
+end
+local function vu50(p48, _)
+    local v49 = vu7.Character.HumanoidRootPart
+    if not (p48 and p48:IsA("BasePart")) then
+        return nil
+    end
+    local _ = p48.Position
+    local _ = p48.AssemblyLinearVelocity
+    return p48.Position + (Velocity * Vector3.new(1, 0, 1) * (math.random(30, 60) / 100) * ((v49.Position - p48.Position).Magnitude / math.random(25, 28)) + Vector3.new(0, Velocity.Y * (math.random(40, 60) / 1000), 0))
+end
+v8.Main:Button({
+    Title = "Shoot the Murderer",
+    Desc = "If you\'re the Sheriff or the Hero, you can shoot the murderer",
+    Callback = function()
+        local v51 = vu7.Character
+        local v52 = vu7.Backpack
+        if not v51 then
+            while not v51 do
+                v51 = vu7.Character
+                task.wait()
+            end
+        end
+        if v51:FindFirstChild("Gun") or v52:FindFirstChild("Gun") then
+            local v53 = v51:FindFirstChild("HumanoidRootPart")
+            local v54 = v52:FindFirstChild("Gun")
+            if not v54 and v51:FindFirstChild("Gun") then
+                v54 = v51:FindFirstChild("Gun")
+            end
+            v54.Parent = v51
+            if vu19 and vu19.Instance then
+                local v55 = vu19.Instance.Character
+                if not v55 then
+                    while not v55 do
+                        v55 = vu19.Instance.Character
+                        task.wait()
+                    end
+                end
+                local v56 = v55:FindFirstChild("HumanoidRootPart")
+                if v56 then
+                    local v57 = {
+                        math.random(0, 5),
+                        math.random(0, 5),
+                        math.random(0, 5)
+                    }
+                    local v58 = v53.CFrame
+                    v53.CFrame = v56.CFrame + Vector3.new(v57[1], v57[2], v57[3])
+                    v54.KnifeLocal.CreateBeam.RemoteFunction:InvokeServer(1, vu50(v56), "AH2")
+                    task.wait(0.05)
+                    v53.CFrame = v58
+                end
+            end
+        else
+            vu10:Notify({
+                Title = "You\'re not the Sheriff/Hero",
+                Content = "You need to be the Sheriff/Hero to use this function",
+                Duration = 3
+            })
+        end
+    end
+})
+local vu59 = false
+local vu60 = false
+function HookGun(pu61)
+    local vu62 = nil
+    local _ = hookmetamethod(game, "__namecall", function(p63, ...)
+        local v64 = {
+            ...
+        }
+        if vu59 == true and (p63 == pu61.KnifeLocal.CreateBeam.RemoteFunction and (getnamecallmethod() == "InvokeServer" and not checkcaller())) then
+            local v65 = vu19 and (vu19.Instance and vu19.Instance.Character)
+            if v65 then
+                v65 = vu50(vu19.Instance.Character.HumanoidRootPart)
+            end
+            v64[2] = v65
+        end
+        return vu62(p63, table.unpack(v64))
+    end)
+    pu61.Activated:Connect(function()
+        local v66 = (vu59 == true and (vu19 and vu19.Instance) and true or false) and vu19.Instance.Character:FindFirstChild("HumanoidRootPart")
+        if v66 then
+            pu61.KnifeLocal.CreateBeam.RemoteFunction:InvokeServer(1, vu50(v66), "AH2")
+        end
+    end)
+end
+task.spawn(function()
+    if vu7.Backpack:FindFirstChild("Gun") then
+        HookGun(vu7.Backpack:FindFirstChild("Gun"))
+    elseif vu7.Character and vu7.Character:FindFirstChild("Gun") then
+        HookGun(vu7.Character:FindFirstChild("Gun"))
+    end
+end)
+vu7.Backpack.ChildAdded:Connect(function(p67)
+    if p67.Name == "Gun" then
+        HookGun(p67)
+    end
+end)
+local vu68 = false
+v8.Main:Toggle({
+    Title = "Throw knife Silent Aim",
+    Desc = "Throw The Knife At Players",
+    Default = false,
+    Callback = function(p69)
+        vu60 = p69
+        local vu70 = game:GetService("Players")
+        local v71 = game:GetService("RunService")
+        local vu72 = vu70.LocalPlayer
+        local vu73 = {
+            CurrentPrediction = Vector3.zero
+        }
+        local function vu79(p74, p75, p76)
+            local v77 = p75 - p74
+            local v78 = RaycastParams.new()
+            v78.FilterDescendantsInstances = {
+                vu72.Character,
+                p76
+            }
+            v78.FilterType = Enum.RaycastFilterType.Blacklist
+            v78.IgnoreWater = true
+            return workspace:Raycast(p74, v77, v78) == nil
+        end
+        local function vu91()
+            local v80 = nil
+            local v81 = math.huge
+            local v82 = vu72.Character
+            if v82 then
+                v82 = vu72.Character.PrimaryPart
+            end
+            if not v82 then
+                return nil
+            end
+            local v83 = vu70
+            local v84, v85, v86 = pairs(v83:GetPlayers())
+            while true do
+                local v87
+                v86, v87 = v84(v85, v86)
+                if v86 == nil then
+                    break
+                end
+                if v87 ~= vu72 then
+                    local v88 = v87.Character
+                    if v88 then
+                        v88 = v87.Character.PrimaryPart
+                    end
+                    local v89 = v87.Character
+                    if v89 then
+                        v89 = v87.Character:FindFirstChildOfClass("Humanoid")
+                    end
+                    if v88 and (v89 and v89.Health > 0) then
+                        local v90 = (v82.Position - v88.Position).Magnitude
+                        if v90 < v81 then
+                            if vu79(v82.Position, v88.Position, v87.Character) then
+                                v80 = v87
+                                v81 = v90
+                            end
+                        end
+                    end
+                end
+            end
+            return v80
+        end
+        local function vu96()
+            local v92 = vu72.Character
+            if v92 then
+                v92 = vu72.Character.PrimaryPart
+            end
+            if v92 then
+                local v93 = vu91()
+                if v93 and (v93.Character and v93.Character.PrimaryPart) then
+                    local v94 = v93.Character.PrimaryPart
+                    local v95 = v94.AssemblyLinearVelocity
+                    return v94.Position + v95 * Vector3.new(1, 0, 1) * (math.random(30, 60) / 100) * ((v92.Position - v94.Position).Magnitude / math.random(25, 28)) + Vector3.new(0, v95.Y * (math.random(40, 60) / 1000), 0)
+                end
+            end
+        end
+        if not vu68 then
+            local vu97 = nil
+            vu97 = hookmetamethod(game, "__namecall", function(p98, ...)
+                local vu99 = {
+                    ...
+                }
+                if getnamecallmethod() == "FireServer" and (tostring(p98) == "Throw" and vu60 == true) then
+                    pcall(function()
+                        vu99[1] = CFrame.new(vu73.CurrentPrediction)
+                    end)
+                end
+                return vu97(p98, unpack(vu99))
+            end)
+            vu68 = true
+        end
+        local vu100 = nil
+        vu100 = v71.RenderStepped:Connect(function()
+            if vu60 then
+                if vu72.Character and vu72.Character.PrimaryPart then
+                    vu73.CurrentPrediction = vu96() or vu73.CurrentPrediction
+                end
+            else
+                vu100:Disconnect()
+            end
+        end)
+    end
+})
+v8.Main:Toggle({
+    Title = "Gun Silent Aim",
+    Desc = "Toggles Silent aim for the gun",
+    Callback = function(p101)
+        vu59 = p101
+    end
+})
+local vu114 = {
+    MapNames = {
+        "ResearchFacility",
+        "Hospital3",
+        "MilBase",
+        "House2",
+        "Workplace",
+        "Mansion2",
+        "BioLab",
+        "Hotel",
+        "Factory",
+        "Bank2",
+        "PoliceStation"
+    },
+    GetMap = function()
+        local v102, v103, v104 = pairs(vu114.MapNames)
+        local v105 = nil
+        while true do
+            local v106
+            v104, v106 = v102(v103, v104)
+            if v104 == nil then
+                break
+            end
+            if workspace:FindFirstChild(v106) then
+                v105 = workspace:FindFirstChild(v106)
+            end
+        end
+        return v105
+    end,
+    GetCoins = function()
+        local v107 = vu114.GetMap()
+        local v108 = v107 and v107:FindFirstChild("CoinContainer")
+        if not v108 then
+            return {}
+        end
+        local v109, v110, v111 = pairs(v108:GetChildren())
+        local v112 = {}
+        while true do
+            local v113
+            v111, v113 = v109(v110, v111)
+            if v111 == nil then
+                break
+            end
+            if v113:IsA("BasePart") then
+                table.insert(v112, v113)
+            end
+        end
+        return v112
+    end
+}
+local vu115 = false
+local vu116 = false
+v8.Farm = v11:Tab({
+    Title = "Automatic"
+})
+v8.Farm:Toggle({
+    Title = "Coins Farm",
+    Desc = "Farm coins that are in the Map",
+    Callback = function(p117)
+        vu115 = p117
+        local v118 = vu7.Character
+        if not v118 then
+            while not v118 do
+                v118 = vu7.Character
+                task.wait()
+            end
+        end
+        local v119 = v118:FindFirstChild("HumanoidRootPart")
+        if p117 == true then
+            v119.Anchored = true
+        else
+            v119.Anchored = false
+        end
+    end
+})
+v8.Farm:Toggle({
+    Title = "Auto get dropped gun",
+    Callback = function(p120)
+        vu116 = p120
+        if p120 == true and workspace:FindFirstChild("GunDrop", true) then
+            local v121 = vu7.Character
+            if not v121 then
+                while not v121 do
+                    v121 = vu7.Character
+                    task.wait()
+                end
+            end
+            local v122 = v121:FindFirstChild("HumanoidRootPart")
+            local v123 = workspace:FindFirstChild("GunDrop", true)
+            if v122 and v123 then
+                firetouchinterest(v122, v123, 0)
+                task.wait(0.01)
+                firetouchinterest(v122, v123, 1)
+            end
+        end
+    end
+})
+workspace.DescendantAdded:Connect(function(p124)
+    if p124 and (p124.Name == "GunDrop" and vu116 == true) then
+        repeat
+            task.wait()
+        until workspace:FindFirstChild("GunDrop") ~= nil
+        if workspace:FindFirstChild("GunDrop") then
+            local v125 = vu7.Character
+            if not v125 then
+                while not v125 do
+                    v125 = vu7.Character
+                    task.wait()
+                end
+            end
+            local v126 = v125:FindFirstChild("HumanoidRootPart")
+            if not v126 then
+                while not v126 do
+                    v126 = v125:FindFirstChild("HumanoidRootPart")
+                    task.wait()
+                end
+            end
+            task.wait(0.1)
+            local v127 = workspace:FindFirstChild("GunDrop")
+            if v126 and v127 then
+                firetouchinterest(v126, v127, 0)
+                task.wait(0.01)
+                firetouchinterest(v126, v127, 1)
+            end
+        end
+    end
+end)
+task.spawn(function()
+    repeat
+        repeat
+            local v128
+            repeat
+                task.wait(0.05)
+                v128 = vu115 == true and vu7.Character
+            until v128
+            if v128 then
+                v128 = v128:FindFirstChild("HumanoidRootPart")
+            end
+        until v128
+        local v129 = vu114.GetCoins()
+    until # v129 ~= 0
+    local v130 = math.huge
+    local v131, v132, v133 = pairs(v129)
+    local v134 = nil
+    if v136.Parent then
+        local v135 = (v128.Position - v136.Position).Magnitude
+        if v135 < v130 then
+            v134 = v136
+            v130 = v135
+        end
+    end
+    local v136
+    v133, v136 = v131(v132, v133)
+    if v133 ~= nil then
+    end
+    if v134 then
+        local v137 = v134.CFrame * CFrame.Angles(0, math.rad(90), 0)
+        local v138 = vu2:Create(v128, TweenInfo.new(0.2, Enum.EasingStyle.Linear), {
+            CFrame = v137
+        })
+        v138:Play()
+        v138.Completed:Wait()
+        if vu115 == true then
+            local v139 = {
+                math.random(- 1, 1),
+                math.random(- 1, 1),
+                math.random(- 1, 1)
+            }
+            v128.Anchored = false
+            v128.CFrame = v137 + Vector3.new(v139[1], v139[2], v139[3])
+            task.wait(0.02)
+            v128.Anchored = true
+            local v140 = {
+                math.random(- 1, 1),
+                math.random(- 1, 1),
+                math.random(- 1, 1)
+                  
