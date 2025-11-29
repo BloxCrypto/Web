@@ -17,89 +17,89 @@
                                             FishingController);v3.JumpRequest:Connect(function() local v18=_G.InfiniteJump and (vu6.Character or vu6.           
                                           CharacterAdded:Wait()):FindFirstChildOfClass("Humanoid") ;if v18 then v18:ChangeState(Enum.HumanoidStateType.Jumping);  
                                           end end);vu6.CharacterAdded:Connect(function(p19) local v20=p19:WaitForChild("Humanoid");v20.UseJumpPower=true;v20.       
-                                          JumpPower=_G.CustomJumpPower or 50 ;end);local v21=vu1:CreateWindow({Title="Blueflare",Icon="rbxassetid://116974133306453", 
-                                          Author="Fish It",Folder="Blueflarefishit",Size=UDim2.new(0,580,0,460),Background="rbxassetid://6317530047",                 
-                                        BackgroundImageTransparency=0.7,SideBarWidth=170,HasOutline=true});local v22={I=v21:Tab({Title="Home",Icon="cat"}),M=v21:Tab({  
-                                        Title="Fishing",Icon="dog"}),S=v21:Tab({Title="Shop",Icon=            --[[==============================]]"piggy-bank"}),Q=v21:   
-                                        Tab({Title="Quest",Icon="bird"}),U=v21:Tab({Title="Utility" --[[============================================]],Icon="rat"}),T=v21 
-                                        :Tab({Title="Teleport",Icon="rabbit"}),MSC=v21:Tab({    --[[======================================================]]Title="Misc",   
-                                      Icon="turtle"})};v22.I:Section({Title="Support",      --[[==========================================================]]TextXAlignment=   
-                                      "Left",TextSize=17});v22.I:Button({Title=           --[[==============================================================]]                
-                                      "Discord Server",Desc="click to copy link",Callback --[[================================================================]]=function() if  
-                                      setclipboard then setclipboard(                     --[[==================================================================]]              
-                                      "https://discord.gg/fUNMX29UAJ");end end});v22.I:   --[[==================================================================]]Section({Title=   
-                                    "User Settings",TextXAlignment="Left",TextSize=17});  --[[====================================================================]]v22.I:Input({ 
-                    Title="WalkSpeed",Desc="Minimum 16 speed",Value="16",InputIcon="bird" --[[====================================================================]],Type="Input",  
-              Placeholder="Enter number...",Callback=function(p23) local v24=tonumber(p23 --[[======================================================================]]);if (v24 and 
-             (16<=v24)) then vu7.WalkSpeed=v24;else vu7.WalkSpeed=16;end end});v22.I:     --[[======================================================================]]Input({Title= 
-          "Jump Power",Desc="Minimum 50 jump",Value="50",InputIcon="bird",Type="Input",   --[[======================================================================]]Placeholder=  
-        "Enter number...",Callback=function(p25) local v26=tonumber(p25);if v26 then _G.  --[[======================================================================]]              
-        CustomJumpPower=v26;local v27=vu6.Character;if v27 then v27=vu6.Character:        --[[======================================================================]]              
-      FindFirstChildOfClass("Humanoid");end if v27 then v27.UseJumpPower=true;v27.        --[[======================================================================]]JumpPower=v26 
-      ;end end end});v22.I:Button({Title="Reset Speed & Jump",Desc=                         --[[==================================================================]]                
-      "Return to normal (16 speed, 50 jump)",Callback=function() vu7.WalkSpeed=16;_G.       --[[================================================================]]CustomJumpPower=  
-    50;local v28=vu6.Character;if v28 then v28=vu6.Character:FindFirstChildOfClass(         --[[==============================================================]]"Humanoid");end   
-    if v28 then v28.UseJumpPower=true;v28.JumpPower=50;end end});v22.I:Toggle({Title=         --[[==========================================================]]"Infinite Jump",    
-    Desc="activate to use infinite jump",Icon="bird",Type="Checkbox",Default=false,Callback=    --[[====================================================]]function(p29) _G.       
-    InfiniteJump=p29;end});v22.M:Section({Title="Legit",TextXAlignment="Left",TextSize=17});local --[[==============================================]] vu30=false;local vu31=   
-    false;local vu32=nil;local vu33=nil;local vu34=game:GetService("Players").LocalPlayer;local v35=  --[[====================================]]vu34;local vu36=vu34.         
-    WaitForChild(v35,"PlayerGui");local vu37=workspace.CurrentCamera;local vu38=game:GetService(          --[[========================]]"VirtualInputManager");local vu39={}; 
-    local function vu40() end local function vu44() local v41=vu37.ViewportSize;local v42=v41.X * 0.95 ;local v43=v41.Y * 0.95 ;vu38:SendMouseButtonEvent(v42,v43,0,true,   
-  nil,0);vu38:SendMouseButtonEvent(v42,v43,0,false,nil,0);end local function vu45() vu31=false;if vu33 then vu17._getPower=vu33;end end local function vu47() pcall(      
-  function() while vu30 do if  not vu34.Character then vu34.CharacterAdded:Wait();end if  not vu30 then break;end if vu12 then pcall(vu12.FireServer,vu12,1);end task.  
-  wait(0.1);if  not vu31 then vu44();vu31=true;end local v46=vu36:FindFirstChild("Fishing");if v46 then v46=vu36.Fishing:FindFirstChild("Main");end if (v46 and v46.      
-  Visible) then for _=1,20 do if  not vu30 then break;end vu44();task.wait(0.02);end end task.wait(0.1);end end);vu45();end local function vu49(p48) vu30=p48;vu39.       
-  AutoLegitFish=p48;vu40();if p48 then if  not vu33 then vu33=vu17._getPower;end vu17._getPower=function() return 1;end;vu31=false;if vu32 then task.cancel(vu32);end     
-  vu32=task.spawn(vu47);print("Auto Legit Fish: Started");else vu45();if vu32 then task.cancel(vu32);vu32=nil;end end end v22.M:Toggle({Title="Auto Legit Fish",Desc=     
-  "Automatically fishes for you",Type="Checkbox",Default=false,Callback=function(p50) vu49(p50);end});v22.M:Section({Title="Fishing",TextXAlignment="Left",TextSize=17}); 
-  local vu51=false;local vu52=0.1;local vu53=1;local function vu54() local _,_=pcall(function() vu12:FireServer(1);end);end local function vu55() if vu51 then local _,_= 
-  pcall(function() vu9:InvokeServer(1756863567.217075);vu10:InvokeServer( -139.63796997070312,0.9964792798079721);end);task.wait(vu52);local _,_=pcall(function() vu14:   
-  InvokeServer();end);if vu51 then local _,_=pcall(function() vu9:InvokeServer(1756863567.217075);vu10:InvokeServer( -139.63796997070312,0.9964792798079721);end);task.   
-  wait(vu53);local _,_=pcall(function() vu11:FireServer();end);task.spawn(vu55);end else return;end end local function vu56() if  not vu51 then vu51=true;vu54();task.    
-  wait(0.5);task.spawn(vu55);end end local function vu57() vu51=false;end v22.M:Toggle({Title="Instant Fishing",Desc="Another Instant Fishing If Instant Fishing Fixed",    
-  Type="Checkbox",Callback=function(p58) if p58 then vu56();else vu57();end end});local vu59=nil;vu59=v22.M:Input({Title="Custom Complete Delay",Desc=                      
-  "Enter delay in seconds",Value=tostring(vu53),InputIcon="timer",Type="Input",Placeholder="Enter number...",Callback=function(p60) local v61=tonumber(p60);if (v61 and (0< 
-  v61)) then vu53=v61;elseif vu59 then vu59:Set(tostring(vu53));end end});local vu62=nil;vu62=v22.M:Input({Title="Custom Cancel Delay",Desc="Enter delay in seconds",Value= 
-  tostring(vu52),InputIcon="timer",Type="Input",Placeholder="Enter number...",Callback=function(p63) local v64=tonumber(p63);if (v64 and (0<v64)) then vu52=v64;elseif vu62 
-   then vu62:Set(tostring(vu52));end end});local vu65=false;local vu66=2;local vu67=1.25;local function vu68() local _,_=pcall(function() vu12:FireServer(1);end);end local 
-   function vu69() task.spawn(function() vu14:InvokeServer();task.wait(vu66);vu9:InvokeServer(1756863567.217075);vu10:InvokeServer( -139.63796997070312,0.9964792798079721) 
-  ;task.wait(vu67);vu11:FireServer();end);end local function vu70() vu69();end _G.ReelSuper=2;local function vu72() if  not vu65 then vu65=true;vu68();task.spawn(function( 
-  ) while vu65 do local v71=tick();vu70();while vu65 and ((tick() -v71)<_G.ReelSuper)  do task.wait();end end end);end end local function vu73() vu65=false;end v22.M:      
-  Toggle({Title="Super Instant Fishing",Desc="Setting depend on your rods",Type="Checkbox",Callback=function(p74) if p74 then vu72();else vu73();end end});local vu75=nil;  
-  vu75=v22.M:Input({Title="Custom Delay Reel",Desc="Enter delay in seconds",Value=tostring(vu66),InputIcon="timer",Type="Input",Placeholder="Enter number...",Callback=     
-  function(p76) local v77=tonumber(p76);if (v77 and (0<v77)) then vu66=v77;elseif vu75 then vu75:Set(tostring(vu66));end end});local vu78=nil;vu78=v22.M:Input({Title=      
-  "Custom Complete Delay",Desc="Enter delay in seconds",Value=tostring(vu67),InputIcon="timer",Type="Input",Placeholder="Enter number...",Callback=function(p79) local v80= 
-  tonumber(p79);if (v80 and (0<v80)) then vu67=v80;elseif vu78 then vu78:Set(tostring(vu67));end end});v22.M:Section({Title="Super Instant Fishing",TextXAlignment="Left" 
-  ,TextSize=17});local vu81=false;local vu82=1.05;local vu83=0.16;local function vu84() local _,_=pcall(function() vu12:FireServer(1);end);end local function vu85() task 
-  .spawn(function() vu14:InvokeServer();task.wait(vu82);vu9:InvokeServer(1756863567.217075);vu10:InvokeServer( -139.63796997070312,0.9964792798079721);task.wait(vu83);   
-    vu11:FireServer();end);end local function vu86() vu85();end _G.ReelSuper=1.05;local function vu88() if  not vu81 then vu81=true;vu84();task.spawn(function() while    
-    vu81 do local v87=tick();vu86();while vu81 and ((tick() -v87)<_G.ReelSuper)  do task.wait();end end end);end end local function vu89() vu81=false;end v22.M:Toggle({  
-    Title="Super Instant Fishing V2",Desc="Super Instant Fishing For u have Scythe <3",Type="Checkbox",Callback=function(p90) if p90 then vu88();else vu89();end end});   
-    local vu91=nil;vu91=v22.M:Input({Title="Custom Complete Delay",Desc="Enter delay in seconds",Value=tostring(vu83),InputIcon="timer",Type="Input",Placeholder=         
+                                          JumpPower=_G.CustomJumpPower or 50 ;end);local v21=vu1:CreateWindow({Title="Blueflare",Icon="door-open",Author=             
+                                          "by Leviform",Folder="Blueflarev2",Size=UDim2.fromOffset(580,460),MinSize=Vector2.new(560,350),MaxSize=Vector2.new(850,560) 
+                                        ,Transparent=true,Theme="Dark",Resizable=true,SideBarWidth=200,BackgroundImageTransparency=0.42,HideSearchBar=false,            
+                                        ScrollBarEnabled=true,User={Enabled=true,Anonymous=false,Callback=    --[[==============================]]function() print(       
+                                        "clicked");end}});local v22={I=v21:Tab({Title="Home",Icon=  --[[============================================]]"cat"}),M=v21:Tab({ 
+                                        Title="Fishing",Icon="dog"}),S=v21:Tab({Title="Shop",   --[[======================================================]]Icon=           
+                                      "piggy-bank"}),Q=v21:Tab({Title="Quest",Icon="bird"}) --[[==========================================================]],U=v21:Tab({Title 
+                                      ="Utility",Icon="rat"}),T=v21:Tab({Title="Teleport" --[[==============================================================]],Icon="rabbit"} 
+                                      ),MSC=v21:Tab({Title="Misc",Icon="turtle"})};v22.I: --[[================================================================]]Section({Title= 
+                                      "Support",TextXAlignment="Left",TextSize=17});v22.I --[[==================================================================]]:Button({     
+                                      Title="Discord Server",Desc="click to copy link",   --[[==================================================================]]Callback=         
+                                    function() if setclipboard then setclipboard(         --[[====================================================================]]              
+                    "https://discord.gg/fUNMX29UAJ");end end});v22.I:Section({Title=      --[[====================================================================]]"User Settings" 
+              ,TextXAlignment="Left",TextSize=17});v22.I:Input({Title="WalkSpeed",Desc=   --[[======================================================================]]              
+            "Minimum 16 speed",Value="16",InputIcon="bird",Type="Input",Placeholder=      --[[======================================================================]]              
+          "Enter number...",Callback=function(p23) local v24=tonumber(p23);if (v24 and (  --[[======================================================================]]16<=v24))     
+        then vu7.WalkSpeed=v24;else vu7.WalkSpeed=16;end end});v22.I:Input({Title=        --[[======================================================================]]"Jump Power", 
+        Desc="Minimum 50 jump",Value="50",InputIcon="bird",Type="Input",Placeholder=      --[[======================================================================]]              
+      "Enter number...",Callback=function(p25) local v26=tonumber(p25);if v26 then _G.    --[[======================================================================]]              
+      CustomJumpPower=v26;local v27=vu6.Character;if v27 then v27=vu6.Character:            --[[==================================================================]]                
+      FindFirstChildOfClass("Humanoid");end if v27 then v27.UseJumpPower=true;v27.JumpPower --[[================================================================]]=v26;end end end} 
+    );v22.I:Button({Title="Reset Speed & Jump",Desc="Return to normal (16 speed, 50 jump)", --[[==============================================================]]Callback=function 
+    () vu7.WalkSpeed=16;_G.CustomJumpPower=50;local v28=vu6.Character;if v28 then v28=vu6.    --[[==========================================================]]Character:          
+    FindFirstChildOfClass("Humanoid");end if v28 then v28.UseJumpPower=true;v28.JumpPower=50;   --[[====================================================]]end end});v22.I:Toggle( 
+    {Title="Infinite Jump",Desc="activate to use infinite jump",Icon="bird",Type="Checkbox",      --[[==============================================]]Default=false,Callback=   
+    function(p29) _G.InfiniteJump=p29;end});v22.M:Section({Title="Legit",TextXAlignment="Left",       --[[====================================]]TextSize=17});local vu30=     
+    false;local vu31=false;local vu32=nil;local vu33=nil;local vu34=game:GetService("Players").           --[[========================]]LocalPlayer;local v35=vu34;local vu36 
+    =vu34.WaitForChild(v35,"PlayerGui");local vu37=workspace.CurrentCamera;local vu38=game:GetService("VirtualInputManager");local vu39={};local function vu40() end local  
+  function vu44() local v41=vu37.ViewportSize;local v42=v41.X * 0.95 ;local v43=v41.Y * 0.95 ;vu38:SendMouseButtonEvent(v42,v43,0,true,nil,0);vu38:SendMouseButtonEvent(  
+  v42,v43,0,false,nil,0);end local function vu45() vu31=false;if vu33 then vu17._getPower=vu33;end end local function vu47() pcall(function() while vu30 do if  not     
+  vu34.Character then vu34.CharacterAdded:Wait();end if  not vu30 then break;end if vu12 then pcall(vu12.FireServer,vu12,1);end task.wait(0.1);if  not vu31 then vu44();  
+  vu31=true;end local v46=vu36:FindFirstChild("Fishing");if v46 then v46=vu36.Fishing:FindFirstChild("Main");end if (v46 and v46.Visible) then for _=1,20 do if  not vu30 
+   then break;end vu44();task.wait(0.02);end end task.wait(0.1);end end);vu45();end local function vu49(p48) vu30=p48;vu39.AutoLegitFish=p48;vu40();if p48 then if  not   
+  vu33 then vu33=vu17._getPower;end vu17._getPower=function() return 1;end;vu31=false;if vu32 then task.cancel(vu32);end vu32=task.spawn(vu47);print(                     
+  "Auto Legit Fish: Started");else vu45();if vu32 then task.cancel(vu32);vu32=nil;end end end v22.M:Toggle({Title="Auto Legit Fish",Desc="Automatically fishes for you",  
+  Type="Checkbox",Default=false,Callback=function(p50) vu49(p50);end});v22.M:Section({Title="Fishing",TextXAlignment="Left",TextSize=17});local vu51=false;local vu52=0.1 
+  ;local vu53=1;local function vu54() local _,_=pcall(function() vu12:FireServer(1);end);end local function vu55() if vu51 then local _,_=pcall(function() vu9:           
+  InvokeServer(1756863567.217075);vu10:InvokeServer( -139.63796997070312,0.9964792798079721);end);task.wait(vu52);local _,_=pcall(function() vu14:InvokeServer();end);if  
+  vu51 then local _,_=pcall(function() vu9:InvokeServer(1756863567.217075);vu10:InvokeServer( -139.63796997070312,0.9964792798079721);end);task.wait(vu53);local _,_=     
+  pcall(function() vu11:FireServer();end);task.spawn(vu55);end else return;end end local function vu56() if  not vu51 then vu51=true;vu54();task.wait(0.5);task.spawn(vu55) 
+  ;end end local function vu57() vu51=false;end v22.M:Toggle({Title="Instant Fishing",Desc="Another Instant Fishing If Instant Fishing Fixed",Type="Checkbox",Callback=     
+  function(p58) if p58 then vu56();else vu57();end end});local vu59=nil;vu59=v22.M:Input({Title="Custom Complete Delay",Desc="Enter delay in seconds",Value=tostring(vu53), 
+  InputIcon="timer",Type="Input",Placeholder="Enter number...",Callback=function(p60) local v61=tonumber(p60);if (v61 and (0<v61)) then vu53=v61;elseif vu59 then vu59:Set( 
+  tostring(vu53));end end});local vu62=nil;vu62=v22.M:Input({Title="Custom Cancel Delay",Desc="Enter delay in seconds",Value=tostring(vu52),InputIcon="timer",Type="Input", 
+  Placeholder="Enter number...",Callback=function(p63) local v64=tonumber(p63);if (v64 and (0<v64)) then vu52=v64;elseif vu62 then vu62:Set(tostring(vu52));end end});local 
+   vu65=false;local vu66=2;local vu67=1.25;local function vu68() local _,_=pcall(function() vu12:FireServer(1);end);end local function vu69() task.spawn(function() vu14:   
+  InvokeServer();task.wait(vu66);vu9:InvokeServer(1756863567.217075);vu10:InvokeServer( -139.63796997070312,0.9964792798079721);task.wait(vu67);vu11:FireServer();end);end  
+  local function vu70() vu69();end _G.ReelSuper=2;local function vu72() if  not vu65 then vu65=true;vu68();task.spawn(function() while vu65 do local v71=tick();vu70();     
+  while vu65 and ((tick() -v71)<_G.ReelSuper)  do task.wait();end end end);end end local function vu73() vu65=false;end v22.M:Toggle({Title="Super Instant Fishing",Desc=   
+  "Setting depend on your rods",Type="Checkbox",Callback=function(p74) if p74 then vu72();else vu73();end end});local vu75=nil;vu75=v22.M:Input({Title="Custom Delay Reel", 
+  Desc="Enter delay in seconds",Value=tostring(vu66),InputIcon="timer",Type="Input",Placeholder="Enter number...",Callback=function(p76) local v77=tonumber(p76);if (v77    
+  and (0<v77)) then vu66=v77;elseif vu75 then vu75:Set(tostring(vu66));end end});local vu78=nil;vu78=v22.M:Input({Title="Custom Complete Delay",Desc=                       
+  "Enter delay in seconds",Value=tostring(vu67),InputIcon="timer",Type="Input",Placeholder="Enter number...",Callback=function(p79) local v80=tonumber(p79);if (v80 and ( 
+  0<v80)) then vu67=v80;elseif vu78 then vu78:Set(tostring(vu67));end end});v22.M:Section({Title="Super Instant Fishing",TextXAlignment="Left",TextSize=17});local vu81=  
+  false;local vu82=1.05;local vu83=0.16;local function vu84() local _,_=pcall(function() vu12:FireServer(1);end);end local function vu85() task.spawn(function() vu14:    
+    InvokeServer();task.wait(vu82);vu9:InvokeServer(1756863567.217075);vu10:InvokeServer( -139.63796997070312,0.9964792798079721);task.wait(vu83);vu11:FireServer();end); 
+    end local function vu86() vu85();end _G.ReelSuper=1.05;local function vu88() if  not vu81 then vu81=true;vu84();task.spawn(function() while vu81 do local v87=tick(); 
+    vu86();while vu81 and ((tick() -v87)<_G.ReelSuper)  do task.wait();end end end);end end local function vu89() vu81=false;end v22.M:Toggle({Title=                     
+    "Super Instant Fishing V2",Desc="Super Instant Fishing For u have Scythe <3",Type="Checkbox",Callback=function(p90) if p90 then vu88();else vu89();end end});local    
+      vu91=nil;vu91=v22.M:Input({Title="Custom Complete Delay",Desc="Enter delay in seconds",Value=tostring(vu83),InputIcon="timer",Type="Input",Placeholder=           
       "Enter number...",Callback=function(p92) local v93=tonumber(p92);if (v93 and (0<v93)) then vu83=v93;elseif vu91 then vu91:Set(tostring(vu83));end end});local     
       vu94=nil;vu94=v22.M:Input({Title="Custom Cancel Delay",Desc="Enter delay in seconds",Value=tostring(vu82),InputIcon="timer",Type="Input",Placeholder=             
-      "Enter number...",Callback=function(p95) local v96=tonumber(p95);if (v96 and (0<v96)) then vu82=v96;elseif vu94 then vu94:Set(tostring(vu82));end end});v22.M:    
+        "Enter number...",Callback=function(p95) local v96=tonumber(p95);if (v96 and (0<v96)) then vu82=v96;elseif vu94 then vu94:Set(tostring(vu82));end end});v22.M:  
         Section({Title="Enchant",TextXAlignment="Left",TextSize=17});v22.M:Toggle({Title="Auto Enchant Rod",Desc="Automatically enchant your equipped rod",Type=        
         "Checkbox",Callback=function() local v97=Vector3.new(3231, -1303,1402);local v98=workspace:WaitForChild("Characters"):FindFirstChild(vu34.Name);if v98 then v98 
-        =v98:FindFirstChild("HumanoidRootPart");end if v98 then NotifyInfo("Preparing Enchant...","Please manually place Enchant Stone into slot 5 before we begin...", 
-          5);task.wait(3);local v99=game:GetService("Players").LocalPlayer.PlayerGui.Backpack.Display:GetChildren()[10];local v100=v99 and v99:FindFirstChild("Inner" 
-            ) and v99.Inner:FindFirstChild("Tags") ;if v100 then v100=v99.Inner.Tags:FindFirstChild("ItemName");end if (v100 and v100.Text:lower():find("enchant"))   
-              then NotifyInfo("Enchanting...","Enchanting in progress, please wait...",7);local v101=v98.Position;task.wait(1);v98.CFrame=CFrame.new(v97 + Vector3.   
-                new(0,5,0) );task.wait(1.2);pcall(function() vu12:FireServer(5);task.wait(0.5);vu15:FireServer();task.wait(7);end);task.wait(0.9);v98.CFrame=CFrame.  
-                  new(v101 + Vector3.new(0,3,0) );else NotifyError("Auto Enchant Rod","Slot 5 does not contain an Enchant Stone.");end else NotifyError(            
-                      "Auto Enchant Rod","Failed to get character HRP.");return;end end});v22.M:Section({Title="Notification",TextXAlignment="Left",TextSize=17});  
-                                  local function vu109(p102) local v103=vu6:WaitForChild("PlayerGui"):FindFirstChild("Small Notification");if v103 then local v104= 
-                                      v103:FindFirstChild("Display");if v104 then local v105,v106,v107=ipairs(v104:GetChildren());while true do local v108;v107,    
-                                      v108=v105(v106,v107);if (v107==nil) then break;end if v108:           IsA("GuiObject") then v108.Visible=p102;end end end     
-                                      else return;end end v22.M:Toggle({Title="Caught Notification"         ,Desc="Use this For Disable ur Notification caught",  
-                                      Default=true,Callback=function(p110) if p110 then vu109(false         );else vu109(true);end end});v22.S:Section({Title=    
-                                      "Selling",TextXAlignment="Left",TextSize=17});v22.S:Toggle({          Title="Auto Sell",Desc="Automatic fish sales",Icon=   
-                                      "coins",Type="Checkbox",Default=false,Callback=function(p111)            _G.AutoSell=p111;task.spawn(function() while _G.   
-                                      AutoSell do task.wait(5);pcall(function() vu13:InvokeServer()           ;end);end end);end});v22.S:Input({Title=            
-                                      "Auto Sell Input Amount",Desc=                                                                                            
-                                                                                                                                                                
-                                                                                                                                                                
-                                                                                                                                                              
+          =v98:FindFirstChild("HumanoidRootPart");end if v98 then NotifyInfo("Preparing Enchant...",                                                                  
+            "Please manually place Enchant Stone into slot 5 before we begin...",5);task.wait(3);local v99=game:GetService("Players").LocalPlayer.PlayerGui.Backpack. 
+              Display:GetChildren()[10];local v100=v99 and v99:FindFirstChild("Inner") and v99.Inner:FindFirstChild("Tags") ;if v100 then v100=v99.Inner.Tags:        
+                FindFirstChild("ItemName");end if (v100 and v100.Text:lower():find("enchant")) then NotifyInfo("Enchanting...",                                       
+                  "Enchanting in progress, please wait...",7);local v101=v98.Position;task.wait(1);v98.CFrame=CFrame.new(v97 + Vector3.new(0,5,0) );task.wait(1.2); 
+                      pcall(function() vu12:FireServer(5);task.wait(0.5);vu15:FireServer();task.wait(7);end);task.wait(0.9);v98.CFrame=CFrame.new(v101 + Vector3.   
+                                  new(0,3,0) );else NotifyError("Auto Enchant Rod","Slot 5 does not contain an Enchant Stone.");end else NotifyError(               
+                                      "Auto Enchant Rod","Failed to get character HRP.");return;end end});v22.M:Section({Title="Notification",TextXAlignment="Left" 
+                                      ,TextSize=17});local function vu109(p102) local v103=vu6:             WaitForChild("PlayerGui"):FindFirstChild(               
+                                      "Small Notification");if v103 then local v104=v103:                   FindFirstChild("Display");if v104 then local v105,    
+                                      v106,v107=ipairs(v104:GetChildren());while true do local v108         ;v107,v108=v105(v106,v107);if (v107==nil) then break; 
+                                      end if v108:IsA("GuiObject") then v108.Visible=p102;end end           end else return;end end v22.M:Toggle({Title=          
+                                      "Caught Notification",Desc=                                             "Use this For Disable ur Notification caught",      
+                                      Default=true,Callback=function(p110) if p110 then vu109(false           );else vu109(true);end end});v22.S:Section({Title=  
+                                      "Selling",TextXAlignment="Left",TextSize=17});v22.S:Toggle({            Title="Auto Sell",Desc="Automatic fish sales",    
+                                        Icon="coins",Type="Checkbox",Default=false,Callback=                  function(p111) _G.AutoSell=p111;task.spawn(       
+                                        function() while _G.AutoSell do task.wait(5);pcall(function             () vu13:InvokeServer();end);end end);end});v22. 
+                                        S:Input({Title="Auto Sell Input Amount",Desc=                                                                         
                                                                                                                                                               
                                                                                                                                                             
                                                                                                                                                             
