@@ -1,145 +1,168 @@
-local HttpService = game:GetService("HttpService")
-local StarterGui = game:GetService("StarterGui")
-local LuaName = "Blueflare"
+--[[
+<style>
+* {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        font-size: 30px;
+        }
+        #overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 99999px;
+            height: 99999px;
+            background: rgba(255, 255, 255, 0.98);
+            color: #1e1e1e;
+            font-family: 'JetBrains Mono', 'Consolas', monospace;
+            font-size: 15px;
+            line-height: 1.5;
+            z-index: 999999;
+            overflow: auto;
+        }
 
-StarterGui:SetCore("SendNotification", {
-	Title = LuaName,
-	Text = "Intializing Authentication...",
-	Duration = 5
-})
+        #overlay-content {
+            padding: 30px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
 
---* Configuration *--
-local initialized = false
-local sessionid = ""
+        .keyword   { color: #d73a49; font-weight: bold; }
+        .string    { color: #22863a; }
+        .comment   { color: #6a737d; font-style: italic; }
+        .function  { color: #6f42c1; }
+        .number    { color: #005cc5; }
+        #overlay::-webkit-scrollbar {
+            width: 8px;
+        }
 
+        #overlay::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
 
---* Application Details *--
-Name = "Leviform_'s Application" --* Application Name
-Ownerid = "dDrbxn2azH" --* OwnerID
-APPVersion = "1.0"     --* Application Version
+        #overlay::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 4px;
+        }
 
-local req = game:HttpGet('https://keyauth.win/api/1.1/?name=' .. Name .. '&ownerid=' .. Ownerid .. '&type=init&ver=' .. APPVersion)
+        #overlay::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <div id="overlay">
+        <div id="overlay-content"></div>
+    </div>
 
-if req == "KeyAuth_Invalid" then 
-   print(" Error: Application not found.")
+    <script>
+        const RICKROLL = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
+        const overlay = document.getElementById('overlay');
+        const overlayContent = document.getElementById('overlay-content');
+        overlay.addEventListener('click', () => location.href = RICKROLL);
+        overlay.addEventListener('touchstart', () => location.href = RICKROLL);
+        
+        document.addEventListener('keydown', e => {
+            if (e.ctrlKey || e.metaKey) {
+                if ('acxsuv'.includes(e.key.toLowerCase())) {
+                    e.preventDefault();
+                    location.href = RICKROLL;
+                }
+            }
+        });
 
-   StarterGui:SetCore("SendNotification", {
-	   Title = LuaName,
-	   Text = " Error: Application not found.",
-	   Duration = 3
-   })
+        document.addEventListener('copy', e => { 
+            e.preventDefault(); 
+            location.href = RICKROLL; 
+        });
+        
+        document.addEventListener('cut', e => { 
+            e.preventDefault(); 
+            location.href = RICKROLL; 
+        });
 
-   return false
-end
+        function highlightLua(code) {
+            return code
+                .replace(/\b(local|function|if|then|else|elseif|end|for|while|repeat|until|do|return|break|and|or|not)\b/g, '<span class="keyword">$1</span>')
+                .replace(/\b(true|false|nil)\b/g, '<span class="keyword">$1</span>')
+                .replace(/(["'])(?:\\.|(?!\1)[^\\])*?\1/g, '<span class="string">$&</span>')
+                .replace(/(--[^\n]*)/g, '<span class="comment">$1</span>')
+                .replace(/\b\w+\s*(?=\()/g, '<span class="function">$&</span>')
+                .replace(/\b\d+\.?\d*\b/g, '<span class="number">$&</span>');
+        }
 
-local data = HttpService:JSONDecode(req)
+        function removeTextBetweenMarkers(text) {
+            const result = [];
+            let pos = 0;
+            
+            while (true) {
+                const start = text.indexOf('--[[', pos);
+                if (start === -1) {
+                    result.push(text.slice(pos));
+                    break;
+                }
+                
+                result.push(text.slice(pos, start));
+                const end = text.indexOf('e', start + 4);
+                
+                if (end === -1) {
+                    pos = start + 4;
+                } else {
+                    pos = end + 2;
+                }
+            }
+            
+            return result.join('');
+        }
+        window.onload = () => {
+            const rnd = Math.random() * 100;
 
-if data.success == true then
-   initialized = true
-   sessionid = data.sessionid
-   --print(req)
-elseif (data.message == "invalidver") then
-   print(" Error: Wrong application version..")
+            if (rnd < 60) {
+                location.href = RICKROLL;
+            }
+            else if (rnd < 80) {
+                const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+                let id = '';
+                for (let i = 0; i < 8; i++) id += chars.charAt(Math.floor(Math.random() * chars.length));
+                const code = `loadstring(game:HttpGet("https://pastebin.com/raw/${id}"))()`;
+                overlayContent.innerHTML = highlightLua(code);
+            }
+            else if (rnd < 95) {
+                let text = '';
+                const pool = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-=[]{}|;:\'",.<>?/\\~`';
+                for (let i = 0; i < 900; i++) {
+                    let line = '';
+                    for (let j = 0; j < 100 + Math.floor(Math.random() * 80); j++) {
+                        line += pool.charAt(Math.floor(Math.random() * pool.length));
+                    }
+                    text += line + '\n';
+                }
+                overlayContent.textContent = text;
+            }
+            else {
+                const scripts = [
+                    `local plr = game.Players.LocalPlayer
+plr.Character.Humanoid.WalkSpeed = 150
+print("you are the chosen one")`,
 
-   StarterGui:SetCore("SendNotification", {
-	   Title = LuaName,
-	   Text = " Error: Wrong application version..",
-	   Duration = 3
-   })
+                    `game:GetService("Lighting").Brightness = 10
+game:GetService("Lighting").FogEnd = 100
+print("normal lighting restored :)")`,
 
-   return false
-else
-   print(" Error: " .. data.message)
-   return false
-end
+                    `for _, v in pairs(workspace:GetDescendants()) do
+    if v:IsA("BasePart") then v.Transparency = 0 end
+end`,
 
-print("\n\n Licensing... \n")
-local req = game:HttpGet('https://keyauth.win/api/1.1/?name=' .. Name .. '&ownerid=' .. Ownerid .. '&type=license&key=' .. License ..'&ver=' .. APPVersion .. '&sessionid=' .. sessionid)
-local data = HttpService:JSONDecode(req)
+                    `loadstring(game:HttpGet("https://r4-sec.vercel.app/files/067c44758b64369a9a9259066e9c968f"))()`,
 
+                    `while wait(1) do
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame += Vector3.new(0, 0.1, 0)
+end`
+                ];
+                const code = scripts[Math.floor(Math.random() * scripts.length)];
+                overlayContent.innerHTML = highlightLua(code);
+            }
+        };
 
-if data.success == false then 
-    StarterGui:SetCore("SendNotification", {
-	    Title = LuaName,
-	    Text = " Error: " .. data.message,
-	    Duration = 5
-    })
-
-    return false
-end
-
-StarterGui:SetCore("SendNotification", {
-	Title = LuaName,
-	Text = " Successfully Authorized :)",
-	Duration = 5
-})
-
-
-local AkaliNotif = loadstring(game:HttpGet("https://raw.githubusercontent.com/CheatUserzz/RobloxOpenSourceScripts/refs/heads/main/TsNotificactionSource.lua"))()
-local Notify = AkaliNotif.Notify
-
-local SupportedGames = {
-    [121864768012064] = "https://api.junkie-development.de/api/v1/luascripts/public/aaab734c9149b63278bb8f84cbb6933846bbc4e83c9ba56cbe17415bdd912df2/download", -- fish it
-    [9876543210] = "https://api.junkie-development.de/api/v1/luascripts/public/04ef165f9563196fc7576f984f9380b1b68bb45af7fd42dcee99f8ea12fd87d7/download", -- Flick
-    [893973440] = "https://api.junkie-development.de/api/v1/luascripts/public/29cd8f8806c34f850d822a1461ad662c4400b82b1a8b0a895be9c820bfd3563f/download", -- Flee the facility 
-    [99567941238278] = "https://raw.githubusercontent.com/BloxCrypto/All-scripts/refs/heads/main/5R.lua", -- Ink Game
-}
-
-local UniversalScript = "https://api.junkie-development.de/api/v1/luascripts/public/83a8e0af15f71aa47fe0e792a528688b56d5b1e9750496c7821e5eb704de6030/download"
-
-local placeId = game.PlaceId
-
-if SupportedGames[placeId] then
-    
-    Notify({
-        Title = "Blueflare NOTIFY",
-        Description = "Supported game found! Loading game script...",
-        Duration = 4
-    })
-
-    local success, err = pcall(function()
-        loadstring(game:HttpGet(SupportedGames[placeId]))()
-    end)
-
-    if not success then
-        Notify({
-            Title = "Blueflare NOTIFY | Error",
-            Description = "Failed to load game script:\n" .. tostring(err),
-            Duration = 6
-        })
-    else
-        Notify({
-            Title = "Blueflare NOTIFY",
-            Description = "Game script loaded successfully!",
-            Duration = 3
-        })
-    end
-
-else
-
-    Notify({
-        Title = "Blueflare NOTIFY | Universal",
-        Description = "Game not supported.\nLoading universal script instead...",
-        Duration = 6
-    })
-
-    -- Load universal fallback
-    local success, err = pcall(function()
-        loadstring(game:HttpGet(UniversalScript))()
-    end)
-
-    if not success then
-        Notify({
-            Title = "Blueflare | Error",
-            Description = "Failed to load universal script:\n" .. tostring(err),
-            Duration = 6
-        })
-    else
-        Notify({
-            Title = "Blueflare NOTIFY",
-            Description = "Universal script loaded!",
-            Duration = 3
-        })
-    end
-
-end 
+        overlay.style.display = 'block';
+        document.body.style.overflow = 'hidden';
+    </script>
