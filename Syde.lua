@@ -1320,8 +1320,6 @@ function ToggleUI()
 	end)
 end
 
--- [MOBILE BUTTON SETUP] - Paste right after ToggleUI() function
-
 local MobileButton = Instance.new("TextButton")
 MobileButton.Name = "MobileToggleButton"
 MobileButton.Size = UDim2.new(0, 50, 0, 50)
