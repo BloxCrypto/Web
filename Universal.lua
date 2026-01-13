@@ -1,6 +1,6 @@
 -- ts file was generated at discord.gg/25ms
 
-local v1 = 'https://raw.githubusercontent.com/mstudio45/LinoriaLib/main/'
+local v1 = 'https://raw.githubusercontent.com/violin-suzutsuki/LinoriaLib/main/'
 local vu2 = loadstring(game:HttpGet(v1 .. 'Library.lua'))()
 local v3 = loadstring(game:HttpGet(v1 .. 'addons/ThemeManager.lua'))()
 local v4 = loadstring(game:HttpGet(v1 .. 'addons/SaveManager.lua'))()
