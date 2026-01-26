@@ -2753,22 +2753,20 @@ ViewTarget_Button.MouseButton1Click:Connect(function()
 	if TargetedPlayer ~= nil then
 		ChangeToggleColor(ViewTarget_Button)
 		if ViewTarget_Button.Ticket_Asset.ImageColor3 == Color3.fromRGB(0,255,0) then
-			local spectateDistance = 1000000000000000 -- Distance from target (smaller = closer)
+			local spectateDistance = 5 -- Distance from target (smaller = closer)
 			local camera = game.Workspace.CurrentCamera
 			local targetPlayer = Players[TargetedPlayer]
+			
+			-- Disconnect camera subject to prevent conflicts
+			camera.CameraType = Enum.CameraType.Scriptable
 			
 			repeat
 				pcall(function()
 					if targetPlayer and targetPlayer.Character and targetPlayer.Character:FindFirstChild("HumanoidRootPart") then
 						local targetRoot = GetRoot(targetPlayer)
-						local randomOffset = CFrame.Angles(
-							math.rad(math.random(-30, 30)),
-							math.rad(math.random(0, 360)),
-							0
-						)
 						
 						-- Position camera at small radius around target
-						camera.CFrame = targetRoot.CFrame * randomOffset * CFrame.new(0, 0, spectateDistance)
+						camera.CFrame = targetRoot.CFrame * CFrame.new(0, 2, spectateDistance)
 						
 						-- Look at target
 						camera.Focus = targetRoot.CFrame + Vector3.new(0, 1, 0)
@@ -2778,7 +2776,8 @@ ViewTarget_Button.MouseButton1Click:Connect(function()
 			until ViewTarget_Button.Ticket_Asset.ImageColor3 == Color3.fromRGB(255,0,0)
 			
 			-- Reset camera to player
-			game.Workspace.CurrentCamera.CameraSubject = plr.Character.Humanoid
+			camera.CameraType = Enum.CameraType.Custom
+			camera.CameraSubject = plr.Character.Humanoid
 		end
 	end
 end)
